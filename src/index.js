@@ -1,11 +1,15 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 
-import { Text, View } from 'react-native';
+import Header from './component/Header';
+import Routes from './routes';
 
 export default function App() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: '#000' }}>Hello, world!</Text>
-    </View>
+    <>
+      <StatusBar background="#7159c1" />
+      <Header />
+      <Routes />
+    </>
   );
 }
