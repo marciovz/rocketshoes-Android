@@ -1,13 +1,19 @@
 import React from 'react';
 
-import { View, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// import { Container } from './styles';
+import { Wrapper, Container, Logo, BasketContainer, ItemCount } from './styles';
 
 export default function Header() {
   return (
-    <View>
-      <Text style={{ color: '#000' }}>HEADER</Text>
-    </View>
+    <Wrapper>
+      <Container>
+        <Logo />
+        <BasketContainer onPress={() => {}}>
+          <Icon name="shopping-basket" color="#FFF" size={24} />
+          <ItemCount>0</ItemCount>
+        </BasketContainer>
+      </Container>
+    </Wrapper>
   );
 }
