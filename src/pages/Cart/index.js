@@ -1,9 +1,10 @@
 import React from 'react';
-
-// import { connect } from 'react-redux';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import { formatPrice } from '../../util/format';
+import * as CartActions from '../../store/modules/cart/actions';
+
+import { formatPrice } from '../../util/format';
 import colors from '../../styles/colors';
 
 import {
@@ -29,60 +30,82 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart() {
+function Cart({ products, total }) {
   return (
     <Container>
-      <Products>
-        <Product key={1}>
-          <ProductInfo>
-            <ProductImage
-              source={{
-                uri:
-                  'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg',
-              }}
-            />
-            <ProductDetails>
-              <ProductTitle>Tênis Adidas Duramo Lite 2.0</ProductTitle>
-              <ProductPrice>R$129,60</ProductPrice>
-            </ProductDetails>
-            <ProductDelete>
-              <Icon name="delete-forever" sie={24} color={colors.primary} />
-            </ProductDelete>
-          </ProductInfo>
-          <ProductControls>
-            <ProductControlButton onPress={() => {}}>
-              <Icon
-                name="remove-circle-outline"
-                size={20}
-                color={colors.primary}
-              />
-            </ProductControlButton>
-            <ProductAmount value="1" />
-            <ProductControlButton onPress={() => {}}>
-              <Icon
-                name="add-circle-outline"
-                size={20}
-                color={colors.primary}
-              />
-            </ProductControlButton>
-            <ProductSubtotal>1200</ProductSubtotal>
-          </ProductControls>
-        </Product>
-
-        <TotalContainer>
-          <TotalText>Total</TotalText>
-          <TotalAmount>1920</TotalAmount>
-          <Order>
-            <OrderText>FINALIZAR PEDIDO</OrderText>
-          </Order>
-        </TotalContainer>
-      </Products>
-      <EmptyContainer>
-        <Icon name="remove-shopping-cart" size={64} color="#eee" />
-        <EmptyText>Seu carrinho está vazio.</EmptyText>
-      </EmptyContainer>
+      {products.length ? (
+        <>
+          <Products>
+            {products.map(product => (
+              <Product key={product.id}>
+                <ProductInfo>
+                  <ProductImage source={{ uri: product.image }} />
+                  <ProductDetails>
+                    <ProductTitle>{product.title}</ProductTitle>
+                    <ProductPrice>{product.priceFormated}</ProductPrice>
+                  </ProductDetails>
+                  <ProductDelete onPress={() => {}}>
+                    <Icon
+                      name="delete-forever"
+                      sie={24}
+                      color={colors.primary}
+                    />
+                  </ProductDelete>
+                </ProductInfo>
+                <ProductControls>
+                  <ProductControlButton onPress={() => {}}>
+                    <Icon
+                      name="remove-circle-outline"
+                      size={20}
+                      color={colors.primary}
+                    />
+                  </ProductControlButton>
+                  <ProductAmount value={String(product.amount)} />
+                  <ProductControlButton onPress={() => {}}>
+                    <Icon
+                      name="add-circle-outline"
+                      size={20}
+                      color={colors.primary}
+                    />
+                  </ProductControlButton>
+                  <ProductSubtotal>{product.subtotal}</ProductSubtotal>
+                </ProductControls>
+              </Product>
+            ))}
+          </Products>
+          <TotalContainer>
+            <TotalText>Total</TotalText>
+            <TotalAmount>{total}</TotalAmount>
+            <Order>
+              <OrderText>FINALIZAR PEDIDO</OrderText>
+            </Order>
+          </TotalContainer>
+        </>
+      ) : (
+        <EmptyContainer>
+          <Icon name="remove-shopping-cart" size={64} color="#eee" />
+          <EmptyText>Seu carrinho está vazio.</EmptyText>
+        </EmptyContainer>
+      )}
     </Container>
   );
 }
 
-export default Cart;
+const mapStateToProps = state => ({
+  products: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+    priceFormatted: formatPrice(product.price),
+  })),
+  total: formatPrice(
+    state.cart.reduce(
+      (total, product) => total + product.price * product.amount,
+      0
+    )
+  ),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
