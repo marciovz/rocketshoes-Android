@@ -1,5 +1,7 @@
 import React from 'react';
 
+// import { connect } from 'react-redux';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import { formatPrice } from '../../util/format';
 import colors from '../../styles/colors';
@@ -27,7 +29,7 @@ import {
   EmptyText,
 } from './styles';
 
-export default function Cart() {
+function Cart() {
   return (
     <Container>
       <Products>
@@ -66,14 +68,15 @@ export default function Cart() {
             <ProductSubtotal>1200</ProductSubtotal>
           </ProductControls>
         </Product>
+
+        <TotalContainer>
+          <TotalText>Total</TotalText>
+          <TotalAmount>1920</TotalAmount>
+          <Order>
+            <OrderText>FINALIZAR PEDIDO</OrderText>
+          </Order>
+        </TotalContainer>
       </Products>
-      <TotalContainer>
-        <TotalText>Total</TotalText>
-        <TotalAmount>1920</TotalAmount>
-        <Order>
-          <OrderText>FINALIZAR PEDIDO</OrderText>
-        </Order>
-      </TotalContainer>
       <EmptyContainer>
         <Icon name="remove-shopping-cart" size={64} color="#eee" />
         <EmptyText>Seu carrinho está vazio.</EmptyText>
@@ -81,3 +84,5 @@ export default function Cart() {
     </Container>
   );
 }
+
+export default Cart;
