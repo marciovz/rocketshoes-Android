@@ -47,6 +47,8 @@ class Main extends Component {
   };
 
   renderProduct = ({ item }) => {
+    const { amount } = this.props;
+
     return (
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
@@ -55,7 +57,7 @@ class Main extends Component {
         <AddButton onPress={() => this.handleAddProduct(item.id)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />
-            <ProductAmountText>{0}</ProductAmountText>
+            <ProductAmountText>{amount[item.id]}</ProductAmountText>
           </ProductAmount>
           <AddButtonText>ADICIONAR</AddButtonText>
         </AddButton>

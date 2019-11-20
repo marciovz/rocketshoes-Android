@@ -30,7 +30,14 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ products, total }) {
+function Cart({ navigation, products, total, updateAmountRequest }) {
+  function decrement(product) {
+    updateAmountRequest(product.id, product.amount - 1);
+  }
+  function increment(product) {
+    updateAmountRequest(product.id, product.amount + 1);
+  }
+
   return (
     <Container>
       {products.length ? (
@@ -53,7 +60,7 @@ function Cart({ products, total }) {
                   </ProductDelete>
                 </ProductInfo>
                 <ProductControls>
-                  <ProductControlButton onPress={() => {}}>
+                  <ProductControlButton onPress={() => decrement(product)}>
                     <Icon
                       name="remove-circle-outline"
                       size={20}
@@ -61,7 +68,7 @@ function Cart({ products, total }) {
                     />
                   </ProductControlButton>
                   <ProductAmount value={String(product.amount)} />
-                  <ProductControlButton onPress={() => {}}>
+                  <ProductControlButton onPress={() => increment(product)}>
                     <Icon
                       name="add-circle-outline"
                       size={20}
