@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
+import colors from '../../styles/colors';
 
 import logo from '../../assets/logo.png';
 
 export const Wrapper = styled.SafeAreaView`
-  background: #f00;
+  background: ${colors.header};
   flex-direction: row;
 `;
 
@@ -13,6 +14,8 @@ export const Container = styled.View`
   justify-content: space-between;
   padding: 20px;
 `;
+
+export const LinkLogo = styled.TouchableOpacity``;
 
 export const Logo = styled.Image.attrs({
   source: logo,

@@ -30,7 +30,13 @@ import {
   EmptyText,
 } from './styles';
 
-function Cart({ navigation, products, total, updateAmountRequest }) {
+function Cart({
+  navigation,
+  products,
+  total,
+  removeFromCart,
+  updateAmountRequest,
+}) {
   function decrement(product) {
     updateAmountRequest(product.id, product.amount - 1);
   }
@@ -51,7 +57,7 @@ function Cart({ navigation, products, total, updateAmountRequest }) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormated}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete onPress={() => {}}>
+                  <ProductDelete onPress={() => removeFromCart(product.id)}>
                     <Icon
                       name="delete-forever"
                       sie={24}
