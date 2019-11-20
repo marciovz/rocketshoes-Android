@@ -60,7 +60,7 @@ function Cart({
                   <ProductDelete onPress={() => removeFromCart(product.id)}>
                     <Icon
                       name="delete-forever"
-                      sie={24}
+                      size={24}
                       color={colors.primary}
                     />
                   </ProductDelete>
