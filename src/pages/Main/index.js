@@ -71,6 +71,7 @@ class Main extends Component {
         <FlatList
           horizontal
           data={products}
+          extraData={this.props}
           keyExtractor={item => String(item.id)}
           renderItem={this.renderProduct}
         />
@@ -79,7 +80,14 @@ class Main extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+    return amount;
+  }, {}),
+});
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
